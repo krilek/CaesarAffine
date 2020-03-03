@@ -17,14 +17,14 @@ namespace CaesarAffine
             {
                 if (chars[i] >= 'A' && chars[i] <= 'Z')
                 {
-                    x = Convert.ToInt32(chars[i] - 65);
-                    output += Convert.ToChar((((x * a) + b + AlphabetLength) % AlphabetLength) + 65);
+                    x = Convert.ToInt32(chars[i] - 'A');
+                    output += Convert.ToChar((((x * a) + b + AlphabetLength) % AlphabetLength) + 'A');
                 }
 
                 else if (chars[i] >= 'a' && chars[i] <= 'z')
                 {
-                    x = Convert.ToInt32(chars[i] - 97);
-                    output += Convert.ToChar((((x * a) + b + AlphabetLength) % AlphabetLength) + 97);
+                    x = Convert.ToInt32(chars[i] - 'a');
+                    output += Convert.ToChar((((x * a) + b + AlphabetLength) % AlphabetLength) + 'a');
                 }
                 else
                 {
@@ -43,17 +43,17 @@ namespace CaesarAffine
             {
                 if (chars[i] >= 'A' && chars[i] <= 'Z')
                 {
-                    x = Convert.ToInt32(chars[i] - 65);
+                    x = Convert.ToInt32(chars[i] - 'A');
                     if (x - b < 0) x = Convert.ToInt32(x) + AlphabetLength;
-                    output += Convert.ToChar(((a * (x - b)) % AlphabetLength) + 65);
+                    output += Convert.ToChar(((a * (x - b)) % AlphabetLength) + 'A');
                 }
 
                 else if (chars[i] >= 'a' && chars[i] <= 'z')
                 {
 
-                    x = Convert.ToInt32(chars[i] - 97);
+                    x = Convert.ToInt32(chars[i] - 'a');
                     if (x - b < 0) x = Convert.ToInt32(x) + AlphabetLength;
-                    output += Convert.ToChar(((a * (x - b)) % AlphabetLength) + 97);
+                    output += Convert.ToChar(((a * (x - b)) % AlphabetLength) + 'a');
                 }
                 else
                 {
@@ -64,17 +64,7 @@ namespace CaesarAffine
         }
 
 
-        public static bool checkAffineKey(int a, int range)
-        {
-            if ((gcd(a, range) == 1) && ((a * (oppositeModulo(a, range)) % range) == 1))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+
 
         public static bool checkCharAlphabetic(char c)
         {
@@ -103,12 +93,12 @@ namespace CaesarAffine
             return false;
         }
 
-        public static int oppositeModulo(int n)
-        //naive method
+        public static int oppositeModulo(int n, int m)
+            //naive method
         {
-            for (int i = 1; i < AlphabetLength; i++)
+            for (int i = 1; i < m; i++)
             {
-                if ((n * i) % AlphabetLength == 1)
+                if ((n * i) % m == 1)
                 {
                     return i;
                 }
@@ -118,15 +108,15 @@ namespace CaesarAffine
 
         public static int gcd(int a, int b)
         {
-            int temp;
-            while (b != 0)
+            while (a != 0 && b != 0)
             {
-                temp = a % b;
-
-                a = b;
-                b = temp;
+                if (a > b)
+                    a %= b;
+                else
+                    b %= a;
             }
-            return a;
+
+            return a == 0 ? b : a;
         }
     }
 }

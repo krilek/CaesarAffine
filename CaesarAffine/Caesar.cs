@@ -9,12 +9,12 @@ namespace CaesarAffine
         public static string caesarEncrypt(int key, string input)
         {
             //E(k,x)=x+k (mod 26)
-            return encrypt(1, key, input);
+            return CryptographyUtils.encrypt(1, key, input);
         }
         public static string caesarDecrypt(int key, string input)
         {
             //D(k,y)=y-k (mod 26)
-            return decrypt(1, key, input);
+            return CryptographyUtils.decrypt(1, key, input);
         }
 
 
@@ -43,12 +43,12 @@ namespace CaesarAffine
             int key;
             for (int i = 0; i < inputHelper.Length; i++)
             {
-                if (checkCharAlphabetic(input[i]))
+                if (CryptographyUtils.checkCharAlphabetic(input[i]))
                 {
                     key = Convert.ToInt32((input[i] - inputHelper[i]) % 26);
                     output[0] = caesarDecrypt(key, input);
                     if (key < 0)
-                        key += ALPH;
+                        key += CryptographyUtils.AlphabetLength;
                     output[1] = key.ToString();
                     break;
                 }
